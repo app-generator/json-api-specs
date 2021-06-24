@@ -1,0 +1,2421 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Unified JSON:API",
+    "description" : "# About\nUnified JSON:API backend built by Creative Tim / UPDIVISION / AppSeed\n",
+    "contact" : { },
+    "license" : { },
+    "version" : "1.0.0"
+  },
+  "externalDocs" : { },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/ROSOFT/JSON-API/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  }, {
+    "url" : "http://example.com"
+  } ],
+  "security" : [ {
+    "noauth" : [ ]
+  }, {
+    "noauth" : [ ]
+  }, {
+    "noauth" : [ ]
+  }, {
+    "noauth" : [ ]
+  } ],
+  "paths" : {
+    "/login" : {
+      "post" : {
+        "tags" : [ "Authentication API" ],
+        "summary" : "Login",
+        "operationId" : "Login",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.api+json" : {
+              "schema" : {
+                "type" : "string",
+                "example" : "{\"data\":{\"type\":\"token\",\"attributes\":{\"email\":\"admin@ipso.ro\",\"password\":\"123456789\"}}}"
+              },
+              "example" : "{\n    \"data\": {\n        \"type\": \"token\",\n        \"attributes\": {\n            \"email\": \"admin@ipso.ro\",\n            \"password\": \"123456789\"\n        }\n    }\n}"
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 - Login Successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/200"
+                },
+                "example" : {
+                  "token_type" : "Bearer",
+                  "expires_in" : 31536000,
+                  "access_token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
+                  "refresh_token" : "def50200aad1ac176dcd27e8757ff4740581..."
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "400 - Login Failed",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/400"
+                },
+                "example" : {
+                  "errors" : [ {
+                    "status" : "400",
+                    "title" : "Bad Request",
+                    "detail" : "The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client."
+                  } ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout" : {
+      "post" : {
+        "tags" : [ "Authentication API" ],
+        "summary" : "Logout",
+        "operationId" : "Logout",
+        "responses" : {
+          "200" : { }
+        }
+      }
+    },
+    "/register" : {
+      "post" : {
+        "tags" : [ "Authentication API" ],
+        "summary" : "Register",
+        "operationId" : "Register",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.api+json" : {
+              "schema" : {
+                "type" : "string",
+                "example" : "{\"data\":{\"type\":\"users\",\"attributes\":{\"name\":\"User Name\",\"email\":\"user223@email.com\",\"password\":\"12345678\",\"password_confirmation\":\"12345678\"},\"relationships\":{\"roles\":{\"data\":[{\"type\":\"roles\",\"id\":\"1\"}]}}}}"
+              },
+              "example" : "{\n    \"data\": {\n        \"type\": \"users\",\n        \"attributes\": {\n            \"name\": \"User Name\",\n            \"email\": \"user223@email.com\",\n            \"password\": \"12345678\",\n            \"password_confirmation\": \"12345678\"\n        },\n        \"relationships\": {\n            \"roles\": {\n                \"data\": [\n                    {\n                        \"type\": \"roles\",\n                        \"id\": \"1\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Register",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/200"
+                },
+                "example" : {
+                  "token_type" : "Bearer",
+                  "expires_in" : 31536000,
+                  "access_token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...",
+                  "refresh_token" : "def50200b5a673bad8c8b580e7f882246853..."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/password-forgot" : {
+      "post" : {
+        "tags" : [ "Authentication API" ],
+        "summary" : "Send Reset Password Email",
+        "operationId" : "SendResetPasswordEmail",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.api+json" : {
+              "schema" : {
+                "type" : "string",
+                "example" : "{\"data\":{\"type\":\"password-forgot\",\"attributes\":{\"redirect_url\":\"https://laravel-json-api-v2.test/password-reset\",\"email\":\"user@email.com\"}}}"
+              },
+              "example" : "{\n    \"data\": {\n        \"type\": \"password-forgot\",\n        \"attributes\": {\n            \"redirect_url\": \"https://laravel-json-api-v2.test/password-reset\",\n            \"email\": \"user@email.com\"\n        }\n    }\n}"
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : { }
+        }
+      }
+    },
+    "/password-reset" : { },
+    "/me" : {
+      "get" : {
+        "tags" : [ "Profile API" ],
+        "summary" : "Get Profile",
+        "description" : "Returns the profile of the currently logged-in user.",
+        "operationId" : "GetProfile",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "Includes the specified relations for the requested user. Possible values: roles,roles.permissions .",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "roles,roles.permissions"
+          }
+        }, {
+          "name" : "fields-users",
+          "in" : "query",
+          "description" : "Only returns the specified user attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name,email,profile_image"
+          }
+        }, {
+          "name" : "fields-roles",
+          "in" : "query",
+          "description" : "Only returns the specified role relationship attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name"
+          }
+        }, {
+          "name" : "fields-permissions",
+          "in" : "query",
+          "description" : "Only returns the specified permission relationship attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 - Get Profile with Permissions",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/200"
+                },
+                "example" : {
+                  "data" : {
+                    "type" : "users",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "User Name",
+                      "email" : "user@email.com",
+                      "profile_image" : "http://localhost/uploads/users/profile-image/image.jpeg",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "data" : [ {
+                          "type" : "roles",
+                          "id" : "1"
+                        } ],
+                        "links" : {
+                          "self" : "http://localhost/api/v1/users/1/relationships/roles",
+                          "related" : "http://localhost/api/v1/users/1/roles"
+                        }
+                      }
+                    },
+                    "links" : {
+                      "self" : "http://localhost/api/v1/users/1"
+                    }
+                  },
+                  "included" : [ {
+                    "type" : "permissions",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "view users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/1/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/1/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "2",
+                    "attributes" : {
+                      "name" : "create users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/2/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/2/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "3",
+                    "attributes" : {
+                      "name" : "edit users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/3/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/3/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "4",
+                    "attributes" : {
+                      "name" : "delete users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/4/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/4/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "5",
+                    "attributes" : {
+                      "name" : "view roles",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/5/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/5/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "6",
+                    "attributes" : {
+                      "name" : "create roles",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/6/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/6/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "7",
+                    "attributes" : {
+                      "name" : "edit roles",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/7/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/7/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "8",
+                    "attributes" : {
+                      "name" : "delete roles",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/8/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/8/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "9",
+                    "attributes" : {
+                      "name" : "view permissions",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/9/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/9/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "10",
+                    "attributes" : {
+                      "name" : "view categories",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/10/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/10/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "11",
+                    "attributes" : {
+                      "name" : "create categories",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/11/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/11/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "12",
+                    "attributes" : {
+                      "name" : "edit categories",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/12/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/12/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "13",
+                    "attributes" : {
+                      "name" : "delete categories",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/13/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/13/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "14",
+                    "attributes" : {
+                      "name" : "view tags",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/14/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/14/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "15",
+                    "attributes" : {
+                      "name" : "create tags",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/15/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/15/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "16",
+                    "attributes" : {
+                      "name" : "edit tags",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/16/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/16/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "17",
+                    "attributes" : {
+                      "name" : "delete tags",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/17/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/17/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "18",
+                    "attributes" : {
+                      "name" : "view items",
+                      "created_at" : "2020-01-01 10:59:06",
+                      "updated_at" : "2020-01-01 10:59:06"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/18/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/18/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "19",
+                    "attributes" : {
+                      "name" : "create items",
+                      "created_at" : "2020-01-01 10:59:06",
+                      "updated_at" : "2020-01-01 10:59:06"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/19/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/19/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "20",
+                    "attributes" : {
+                      "name" : "edit items",
+                      "created_at" : "2020-01-01 10:59:06",
+                      "updated_at" : "2020-01-01 10:59:06"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/20/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/20/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "21",
+                    "attributes" : {
+                      "name" : "delete items",
+                      "created_at" : "2020-01-01 10:59:06",
+                      "updated_at" : "2020-01-01 10:59:06"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/21/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/21/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "roles",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "admin",
+                      "created_at" : "2020-01-01 10:59:06",
+                      "updated_at" : "2020-01-01 10:59:06"
+                    },
+                    "relationships" : {
+                      "permissions" : {
+                        "data" : [ {
+                          "type" : "permissions",
+                          "id" : "1"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "2"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "3"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "4"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "5"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "6"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "7"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "8"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "9"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "10"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "11"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "12"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "13"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "14"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "15"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "16"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "17"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "18"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "19"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "20"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "21"
+                        } ],
+                        "links" : {
+                          "self" : "http://localhost/api/v1/roles/1/relationships/permissions",
+                          "related" : "http://localhost/api/v1/roles/1/permissions"
+                        }
+                      },
+                      "users" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/roles/1/relationships/users",
+                          "related" : "http://localhost/api/v1/roles/1/users"
+                        }
+                      }
+                    }
+                  } ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Profile API" ],
+        "summary" : "Update Profile",
+        "description" : "Updates the profile of the currently logged user.",
+        "operationId" : "UpdateProfile",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "roles.permissions"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Updates the profile of the currently logged user.",
+          "content" : {
+            "application/vnd.api+json" : {
+              "schema" : {
+                "type" : "string",
+                "example" : "{\"data\":{\"type\":\"profile\",\"attributes\":{\"password\":\"12345678\",\"password_new\":\"123456789\",\"password_confirmation\":\"123456789\"}}}"
+              },
+              "example" : "{\n    \"data\": {\n        \"type\": \"profile\",\n        \"attributes\": {\n            \"password\": \"12345678\",\n            \"password_new\": \"123456789\",\n            \"password_confirmation\": \"123456789\"\n        }\n    }\n}"
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 - Update Profile Successful",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/200"
+                },
+                "example" : {
+                  "data" : {
+                    "type" : "users",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "New User Name",
+                      "email" : "user@email.com",
+                      "profile_image" : "http://localhost/uploads/users/profile-image/image.jpeg",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/users/1/relationships/roles",
+                          "related" : "http://localhost/api/v1/users/1/roles"
+                        }
+                      }
+                    },
+                    "links" : {
+                      "self" : "http://localhost/api/v1/users/1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users" : {
+      "get" : {
+        "tags" : [ "Users API - PRO Feature" ],
+        "summary" : "List Users",
+        "description" : "Lists all users.",
+        "operationId" : "ListUsers",
+        "parameters" : [ {
+          "name" : "page-number",
+          "in" : "query",
+          "description" : "The page number.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "page-size",
+          "in" : "query",
+          "description" : "The number of items per page.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "filter-name",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed name value. ",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "User Name"
+          }
+        }, {
+          "name" : "filter-email",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed email value. ",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "user@email.com"
+          }
+        }, {
+          "name" : "filter-roles",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed user role value. ",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "creator"
+          }
+        }, {
+          "name" : "include",
+          "in" : "query",
+          "description" : "Incudes the specified relations in the requested collection. Possible values: roles, roles.permissions.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "roles"
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorts the resource collection by the specified value. Possible values are: name, email, roles, created_at.  All values can be appended with either + or - to specify the sorting order.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "-roles.name"
+          }
+        }, {
+          "name" : "fields[users]",
+          "in" : "query",
+          "description" : "Only returns the specified user attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name,email,profile_image"
+          }
+        }, {
+          "name" : "fields[roles]",
+          "in" : "query",
+          "description" : "Only returns the specified role relationship attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name"
+          }
+        }, {
+          "name" : "fields[permissions]",
+          "in" : "query",
+          "description" : "Only returns the specified permission relationship attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name"
+          }
+        }, {
+          "name" : "page[size]",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 - List Users with Permissions",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/200"
+                },
+                "example" : {
+                  "data" : [ {
+                    "type" : "users",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "User Name",
+                      "email" : "user@email.com",
+                      "profile_image" : "http://localhost/uploads/users/profile-image/image.jpeg",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "data" : [ {
+                          "type" : "roles",
+                          "id" : "1"
+                        } ],
+                        "links" : {
+                          "self" : "http://localhost/api/v1/users/1/relationships/roles",
+                          "related" : "http://localhost/api/v1/users/1/roles"
+                        }
+                      }
+                    },
+                    "links" : {
+                      "self" : "http://localhost/api/v1/users/1"
+                    }
+                  } ],
+                  "included" : [ {
+                    "type" : "permissions",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "view users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/1/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/1/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "2",
+                    "attributes" : {
+                      "name" : "create users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/2/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/2/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "3",
+                    "attributes" : {
+                      "name" : "edit users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/3/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/3/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "4",
+                    "attributes" : {
+                      "name" : "delete users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/4/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/4/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "roles",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "admin",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "permissions" : {
+                        "data" : [ {
+                          "type" : "permissions",
+                          "id" : "1"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "2"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "3"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "4"
+                        } ],
+                        "links" : {
+                          "self" : "http://localhost/api/v1/roles/1/relationships/permissions",
+                          "related" : "http://localhost/api/v1/roles/1/permissions"
+                        }
+                      },
+                      "users" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/roles/1/relationships/users",
+                          "related" : "http://localhost/api/v1/roles/1/users"
+                        }
+                      }
+                    }
+                  } ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Users API - PRO Feature" ],
+        "summary" : "Create User",
+        "description" : "Creates a new user.",
+        "operationId" : "CreateUser",
+        "requestBody" : {
+          "description" : "Creates a new user.",
+          "content" : {
+            "application/vnd.api+json" : {
+              "schema" : {
+                "type" : "string",
+                "example" : "{\"data\":{\"type\":\"users\",\"attributes\":{\"name\":\"New User\",\"email\":\"new_user@email.com\",\"profile_image\":\"https://laravel-json-api-v2.test/uploads/users/profile-image/image.jpeg\",\"password\":\"some_password\",\"password_confirmation\":\"some_password\"},\"relationships\":{\"roles\":{\"data\":[{\"id\":\"1\",\"type\":\"roles\"}]}}}}"
+              },
+              "example" : "{\n    \"data\": {\n        \"type\": \"users\",\n        \"attributes\": {\n            \"name\": \"New User\",\n            \"email\": \"new_user@email.com\",\n            \"profile_image\": \"https://laravel-json-api-v2.test/uploads/users/profile-image/image.jpeg\",\n            \"password\": \"some_password\",\n            \"password_confirmation\": \"some_password\"\n        },\n        \"relationships\": {\n            \"roles\": {\n                \"data\": [\n                    {\n                        \"id\": \"1\",\n                        \"type\": \"roles\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : { },
+          "201" : {
+            "description" : "200 - Create User Successful",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/201"
+                },
+                "example" : {
+                  "data" : {
+                    "type" : "users",
+                    "id" : "2",
+                    "attributes" : {
+                      "name" : "New User",
+                      "email" : "new_user@email.com",
+                      "profile_image" : "https://localhost/uploads/users/profile-image/image.jpeg",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/users/2/relationships/roles",
+                          "related" : "http://localhost/api/v1/users/2/roles"
+                        }
+                      }
+                    },
+                    "links" : {
+                      "self" : "http://localhost/api/v1/users/2"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "422 - Invalid Attributes",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/422"
+                },
+                "example" : {
+                  "errors" : [ {
+                    "status" : "422",
+                    "title" : "Unprocessable Entity",
+                    "detail" : "The email must be a valid email address.",
+                    "source" : {
+                      "pointer" : "/data/attributes/email"
+                    }
+                  }, {
+                    "status" : "422",
+                    "title" : "Unprocessable Entity",
+                    "detail" : "The profile image format is invalid.",
+                    "source" : {
+                      "pointer" : "/data/attributes/profile_image"
+                    }
+                  } ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/1" : {
+      "get" : {
+        "tags" : [ "Users API - PRO Feature" ],
+        "summary" : "Show User",
+        "description" : "Returns a single queried user.",
+        "operationId" : "ShowUser",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "Includes the specified relations for the requested user. Possible values: roles,roles.permissions .",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "roles,roles.permissions"
+          }
+        }, {
+          "name" : "fields[users]",
+          "in" : "query",
+          "description" : "Only returns the specified user attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name,email,profile_image"
+          }
+        }, {
+          "name" : "fields[roles]",
+          "in" : "query",
+          "description" : "Only returns the specified role relationship attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name"
+          }
+        }, {
+          "name" : "fields[permissions]",
+          "in" : "query",
+          "description" : "Only returns the specified permission relationship attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 - Show User with Permissions",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/200"
+                },
+                "example" : {
+                  "data" : {
+                    "type" : "users",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "User Name",
+                      "email" : "user@email.com",
+                      "profile_image" : "http://localhost/uploads/users/profile-image/image.jpeg",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "data" : [ {
+                          "type" : "roles",
+                          "id" : "1"
+                        } ],
+                        "links" : {
+                          "self" : "http://localhost/api/v1/users/1/relationships/roles",
+                          "related" : "http://localhost/api/v1/users/1/roles"
+                        }
+                      }
+                    },
+                    "links" : {
+                      "self" : "http://localhost/api/v1/users/1"
+                    }
+                  },
+                  "included" : [ {
+                    "type" : "permissions",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "view users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/1/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/1/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "2",
+                    "attributes" : {
+                      "name" : "create users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/2/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/2/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "3",
+                    "attributes" : {
+                      "name" : "edit users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/3/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/3/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "4",
+                    "attributes" : {
+                      "name" : "delete users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/4/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/4/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "roles",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "admin",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "permissions" : {
+                        "data" : [ {
+                          "type" : "permissions",
+                          "id" : "1"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "2"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "3"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "4"
+                        } ],
+                        "links" : {
+                          "self" : "http://localhost/api/v1/roles/1/relationships/permissions",
+                          "related" : "http://localhost/api/v1/roles/1/permissions"
+                        }
+                      },
+                      "users" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/roles/1/relationships/users",
+                          "related" : "http://localhost/api/v1/roles/1/users"
+                        }
+                      }
+                    }
+                  } ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Users API - PRO Feature" ],
+        "summary" : "Update User",
+        "description" : "Updates a single user.",
+        "operationId" : "UpdateUser",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "roles.permissions"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Updates a single user.",
+          "content" : {
+            "application/vnd.api+json" : {
+              "schema" : {
+                "type" : "string",
+                "example" : "{\"data\":{\"id\":\"1\",\"type\":\"users\",\"attributes\":{\"name\":\"New User Name\",\"profile_image\":\"https://laravel-json-api-v2.test/uploads/users/profile-image/new-image.jpeg\"},\"relationships\":{\"roles\":{\"data\":[{\"id\":\"1\",\"type\":\"roles\"}]}}}}"
+              },
+              "example" : "{\n    \"data\": {\n        \"id\": \"1\",\n        \"type\": \"users\",\n        \"attributes\": {\n            \"name\": \"New User Name\",\n            \"profile_image\": \"https://laravel-json-api-v2.test/uploads/users/profile-image/new-image.jpeg\"\n        },\n        \"relationships\": {\n            \"roles\": {\n                \"data\": [\n                    {\n                        \"id\": \"1\",\n                        \"type\": \"roles\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200 - Update User with Permissions",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/200"
+                },
+                "example" : {
+                  "data" : {
+                    "type" : "users",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "New User Name",
+                      "email" : "user@email.com",
+                      "profile_image" : "https://localhost/uploads/users/profile-image/new-image.jpeg",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "data" : [ {
+                          "type" : "roles",
+                          "id" : "1"
+                        } ],
+                        "links" : {
+                          "self" : "http://localhost/api/v1/users/1/relationships/roles",
+                          "related" : "http://localhost/api/v1/users/1/roles"
+                        }
+                      }
+                    },
+                    "links" : {
+                      "self" : "http://localhost/api/v1/users/1"
+                    }
+                  },
+                  "included" : [ {
+                    "type" : "permissions",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "view users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/1/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/1/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "2",
+                    "attributes" : {
+                      "name" : "create users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/2/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/2/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "3",
+                    "attributes" : {
+                      "name" : "edit users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/3/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/3/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "permissions",
+                    "id" : "4",
+                    "attributes" : {
+                      "name" : "delete users",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "roles" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/permissions/4/relationships/roles",
+                          "related" : "http://localhost/api/v1/permissions/4/roles"
+                        }
+                      }
+                    }
+                  }, {
+                    "type" : "roles",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "admin",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "permissions" : {
+                        "data" : [ {
+                          "type" : "permissions",
+                          "id" : "1"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "2"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "3"
+                        }, {
+                          "type" : "permissions",
+                          "id" : "4"
+                        } ],
+                        "links" : {
+                          "self" : "http://localhost/api/v1/roles/1/relationships/permissions",
+                          "related" : "http://localhost/api/v1/roles/1/permissions"
+                        }
+                      },
+                      "users" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/roles/1/relationships/users",
+                          "related" : "http://localhost/api/v1/roles/1/users"
+                        }
+                      }
+                    }
+                  } ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/2" : {
+      "delete" : {
+        "tags" : [ "Users API - PRO Feature" ],
+        "summary" : "Delete User",
+        "description" : "Deletes a single user.",
+        "operationId" : "DeleteUser",
+        "responses" : {
+          "200" : { }
+        }
+      }
+    },
+    "/uploads/users/1/profile-image" : {
+      "post" : {
+        "tags" : [ "Users API - PRO Feature" ],
+        "summary" : "Upload Profile Image - Pro Feature",
+        "description" : "Uploads and returns the url of the uploaded user profile image.",
+        "operationId" : "UploadProfileImage-ProFeature",
+        "requestBody" : {
+          "description" : "Uploads and returns the url of the uploaded user profile image.",
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body"
+              },
+              "example" : [ {
+                "key" : "attachment",
+                "type" : "file",
+                "src" : "/C:/Users/Eugen/Desktop/Garbagé/WP_000652.jpg"
+              } ]
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : { },
+          "201" : {
+            "description" : "201 - Upload Profile Image Successful",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/201"
+                },
+                "example" : {
+                  "url" : "http://localhost/storage/uploads/users/1/profile-image/Dr2BuVA6ODCGlQwaCoh8aGUPOYihROm2bYRgGLIZ.png"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items" : {
+      "get" : {
+        "tags" : [ "Items API - PRO Feature" ],
+        "summary" : "List Items",
+        "operationId" : "ListItems",
+        "parameters" : [ {
+          "name" : "page[number]",
+          "in" : "query",
+          "description" : "The page number.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "page[size]",
+          "in" : "query",
+          "description" : "The number of items per page.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "filter[name]",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed item name value.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "item_name"
+          }
+        }, {
+          "name" : "filter-category",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed category name value.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "some_category"
+          }
+        }, {
+          "name" : "filter-tags",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed tag name value.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "some_tag"
+          }
+        }, {
+          "name" : "filter-status",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed status value. Possible values: published, draft, archive.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "published"
+          }
+        }, {
+          "name" : "filter-is_on_homepage",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed boolen value. Possible values: 0 (false), 1 (true).",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "filter-date_at",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed date_at value. In the case of interval filtering between the dates the first element of the date_at array will be the start of the interval.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "2020-01-01 00:00:00"
+          }
+        }, {
+          "name" : "filter[date_at][]",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed date_at value. In the case of interval filtering between the dates the second element of the date_at array will be the stop of the interval.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "2020-12-31 00:00:00"
+          }
+        }, {
+          "name" : "filter-created_at",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed created_at value. In the case of interval filtering between the dates the first element of the created_at array will be the start of the interval.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "2020-01-01 00:00:00"
+          }
+        }, {
+          "name" : "filter[created_at][]",
+          "in" : "query",
+          "description" : "Filters the collection by the specifed created_at value. In the case of interval filtering between the dates the second element of the created_at array will be the stop of the interval.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "2020-12-31 00:00:00"
+          }
+        }, {
+          "name" : "include",
+          "in" : "query",
+          "description" : "Includes the specified relations in the requested collection. Possible values: user,category,tags.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "category,tags"
+          }
+        }, {
+          "name" : "sort",
+          "in" : "query",
+          "description" : "Sorts the collection by the specified value. Possible values are: name,category.name,tags.name,created_at.  All values can be prepended with either + or - to select the sorting order.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name,category.name,tags.name,created_at"
+          }
+        }, {
+          "name" : "fields-item",
+          "in" : "query",
+          "description" : "Only returns the specified item attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name,excerpt,description,status,image,is_on_homepage,date_at"
+          }
+        }, {
+          "name" : "fields-user",
+          "in" : "query",
+          "description" : "Only returns the specified user relationship attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name,email,profile_image"
+          }
+        }, {
+          "name" : "fields[tags]",
+          "in" : "query",
+          "description" : "Only returns the specified tags relationship attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name"
+          }
+        }, {
+          "name" : "fields-category",
+          "in" : "query",
+          "description" : "Only returns the specified category relationship attributes.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "name"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 - List Items with Filters",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/200"
+                },
+                "example" : {
+                  "data" : [ {
+                    "type" : "items",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "item name",
+                      "excerpt" : "item description excerpt",
+                      "description" : "item description",
+                      "status" : "published",
+                      "image" : "https://localhost/uploads/items/1/image/cBFGnmZT81FK4DVJcnwOShhXm9ETMaBRWkzdBmkd.jpeg",
+                      "is_on_homepage" : true,
+                      "date_at" : "2020-01-01 00:00:00",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "user" : {
+                        "links" : {
+                          "related" : "http://localhost/api/v1/items/1/user"
+                        }
+                      },
+                      "category" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/items/1/relationships/category",
+                          "related" : "http://localhost/api/v1/items/1/category"
+                        }
+                      },
+                      "tags" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/items/1/relationships/tags",
+                          "related" : "http://localhost/api/v1/items/1/tags"
+                        }
+                      }
+                    },
+                    "links" : {
+                      "self" : "http://localhost/api/v1/items/1"
+                    }
+                  } ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Items API - PRO Feature" ],
+        "summary" : "Create Item",
+        "operationId" : "CreateItem",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.api+json" : {
+              "schema" : {
+                "type" : "string",
+                "example" : "{\"data\":{\"type\":\"items\",\"attributes\":{\"name\":\"item name\",\"excerpt\":\"item description excerpt\",\"description\":\"item description\",\"status\":\"published\",\"image\":\"https://laravel-json-api-v2.test/uploads/items/1/image/cBFGnmZT81FK4DVJcnwOShhXm9ETMaBRWkzdBmkd.jpeg\",\"is_on_homepage\":true,\"date_at\":\"2020-04-16 00:00:00\"},\"relationships\":{\"category\":{\"data\":{\"type\":\"categories\",\"id\":\"1\"}},\"user\":{\"data\":{\"type\":\"users\",\"id\":\"1\"}},\"tags\":{\"data\":[{\"type\":\"tags\",\"id\":\"1\"}]}}}}"
+              },
+              "example" : "{\n    \"data\": {\n        \"type\": \"items\",\n        \"attributes\": {\n            \"name\": \"item name\",\n            \"excerpt\": \"item description excerpt\",\n            \"description\": \"item description\",\n            \"status\": \"published\",\n            \"image\": \"https://laravel-json-api-v2.test/uploads/items/1/image/cBFGnmZT81FK4DVJcnwOShhXm9ETMaBRWkzdBmkd.jpeg\",\n            \"is_on_homepage\": true,\n            \"date_at\": \"2020-04-16 00:00:00\"\n        },\n        \"relationships\": {\n            \"category\": {\n                \"data\": {\n                    \"type\": \"categories\",\n                    \"id\": \"1\"\n                }\n            },\n            \"user\": {\n                \"data\": {\n                    \"type\": \"users\",\n                    \"id\": \"1\"\n                }\n            },\n            \"tags\": {\n                \"data\": [\n                    {\n                        \"type\": \"tags\",\n                        \"id\": \"1\"\n                    }\n                ]\n            }\n        }\n    }\n}"
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : { },
+          "201" : {
+            "description" : "201 - Create Item",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/201"
+                },
+                "example" : {
+                  "data" : {
+                    "type" : "items",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "item name",
+                      "excerpt" : "item description excerpt",
+                      "description" : "item description",
+                      "status" : "published",
+                      "image" : "https://localhost/uploads/items/1/image/item-image.jpeg",
+                      "is_on_homepage" : true,
+                      "date_at" : "2020-01-01 00:00:00",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "user" : {
+                        "links" : {
+                          "related" : "http://localhost/api/v1/items/1/user"
+                        }
+                      },
+                      "category" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/items/1/relationships/category",
+                          "related" : "http://localhost/api/v1/items/1/category"
+                        }
+                      },
+                      "tags" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/items/1/relationships/tags",
+                          "related" : "http://localhost/api/v1/items/1/tags"
+                        }
+                      }
+                    },
+                    "links" : {
+                      "self" : "http://localhost/api/v1/items/1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/items/1" : {
+      "get" : {
+        "tags" : [ "Items API - PRO Feature" ],
+        "summary" : "Show Item",
+        "operationId" : "ShowItem",
+        "parameters" : [ {
+          "name" : "include",
+          "in" : "query",
+          "description" : "Includes the specified relations in the requested collection. Possible values: user,user.roles,category,tags.",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "user,user.roles,category,tags"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 - Show Item",
+            "content" : {
+              "application/vnd.api+json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/200"
+                },
+                "example" : {
+                  "data" : {
+                    "type" : "items",
+                    "id" : "1",
+                    "attributes" : {
+                      "name" : "item name",
+                      "excerpt" : "item description excerpt",
+                      "description" : "item description",
+                      "status" : "published",
+                      "image" : "https://localhost/uploads/items/1/image/cBFGnmZT81FK4DVJcnwOShhXm9ETMaBRWkzdBmkd.jpeg",
+                      "is_on_homepage" : true,
+                      "date_at" : "2020-01-01 00:00:00",
+                      "created_at" : "2020-01-01 00:00:00",
+                      "updated_at" : "2020-01-01 00:00:00"
+                    },
+                    "relationships" : {
+                      "user" : {
+                        "links" : {
+                          "related" : "http://localhost/api/v1/items/1/user"
+                        }
+                      },
+                      "category" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/items/1/relationships/category",
+                          "related" : "http://localhost/api/v1/items/1/category"
+                        }
+                      },
+                      "tags" : {
+                        "links" : {
+                          "self" : "http://localhost/api/v1/items/1/relationships/tags",
+                          "related" : "http://localhost/api/v1/items/1/tags"
+                        }
+                      }
+                    },
+                    "links" : {
+                      "self" : "http://localhost/api/v1/items/1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Items API - PRO Feature" ],
+        "summary" : "Delete Item",
+        "operationId" : "DeleteItem",
+        "responses" : {
+          "200" : { }
+        }
+      }
+    },
+    "/items/13" : {
+      "patch" : {
+        "tags" : [ "Items API - PRO Feature" ],
+        "summary" : "Update Item",
+        "operationId" : "UpdateItem",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.api+json" : {
+              "schema" : {
+                "type" : "string",
+                "example" : "{\"data\":{\"type\":\"items\",\"id\":\"1\",\"attributes\":{\"name\":\"new_item_name\"}}}"
+              },
+              "example" : "{\n    \"data\": {\n        \"type\": \"items\",\n        \"id\": \"1\",\n        \"attributes\": {\n            \"name\": \"new_item_name\"\n        }\n    }\n}"
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : { }
+        }
+      }
+    },
+    "/uploads/items/1/image" : {
+      "post" : {
+        "tags" : [ "Items API - PRO Feature" ],
+        "summary" : "Upload Item Image",
+        "operationId" : "UploadItemImage",
+        "requestBody" : {
+          "content" : {
+            "application/x-www-form-urlencoded" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_1"
+              },
+              "example" : [ {
+                "key" : "attachment",
+                "type" : "file",
+                "src" : "/home/victor/Pictures/Wallpapers/photo-1459695452562-46cc57bef5f6.jpeg"
+              } ]
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : { }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "200" : {
+        "type" : "object",
+        "properties" : {
+          "token_type" : {
+            "type" : "string",
+            "default" : "Bearer"
+          },
+          "expires_in" : {
+            "type" : "integer",
+            "default" : 31536000
+          },
+          "access_token" : {
+            "type" : "string",
+            "default" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
+          },
+          "refresh_token" : {
+            "type" : "string",
+            "default" : "def50200aad1ac176dcd27e8757ff4740581..."
+          }
+        }
+      },
+      "201" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "$ref" : "#/components/schemas/201_data"
+          }
+        }
+      },
+      "400" : {
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/400_errors"
+            }
+          }
+        }
+      },
+      "422" : {
+        "type" : "object",
+        "properties" : {
+          "errors" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/422_errors"
+            }
+          }
+        }
+      },
+      "body" : {
+        "required" : [ "file" ],
+        "type" : "object",
+        "properties" : {
+          "file" : {
+            "type" : "string",
+            "format" : "binary"
+          }
+        }
+      },
+      "body_1" : {
+        "required" : [ "file" ],
+        "type" : "object",
+        "properties" : {
+          "file" : {
+            "type" : "string",
+            "format" : "binary"
+          }
+        }
+      },
+      "201_data_attributes" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "default" : "New User"
+          },
+          "email" : {
+            "type" : "string",
+            "default" : "new_user@email.com"
+          },
+          "profile_image" : {
+            "type" : "string",
+            "default" : "https://localhost/uploads/users/profile-image/image.jpeg"
+          },
+          "created_at" : {
+            "type" : "string",
+            "default" : "2020-01-01 00:00:00"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "default" : "2020-01-01 00:00:00"
+          }
+        }
+      },
+      "201_data_relationships_roles_links" : {
+        "type" : "object",
+        "properties" : {
+          "self" : {
+            "type" : "string",
+            "default" : "http://localhost/api/v1/users/2/relationships/roles"
+          },
+          "related" : {
+            "type" : "string",
+            "default" : "http://localhost/api/v1/users/2/roles"
+          }
+        }
+      },
+      "201_data_relationships_roles" : {
+        "type" : "object",
+        "properties" : {
+          "links" : {
+            "$ref" : "#/components/schemas/201_data_relationships_roles_links"
+          }
+        }
+      },
+      "201_data_relationships" : {
+        "type" : "object",
+        "properties" : {
+          "roles" : {
+            "$ref" : "#/components/schemas/201_data_relationships_roles"
+          }
+        }
+      },
+      "201_data_links" : {
+        "type" : "object",
+        "properties" : {
+          "self" : {
+            "type" : "string",
+            "default" : "http://localhost/api/v1/users/2"
+          }
+        }
+      },
+      "201_data" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "default" : "users"
+          },
+          "id" : {
+            "type" : "string",
+            "default" : "2"
+          },
+          "attributes" : {
+            "$ref" : "#/components/schemas/201_data_attributes"
+          },
+          "relationships" : {
+            "$ref" : "#/components/schemas/201_data_relationships"
+          },
+          "links" : {
+            "$ref" : "#/components/schemas/201_data_links"
+          }
+        }
+      },
+      "400_errors" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "default" : "400"
+          },
+          "title" : {
+            "type" : "string",
+            "default" : "Bad Request"
+          },
+          "detail" : {
+            "type" : "string",
+            "default" : "The provided authorization grant (e.g., authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client."
+          }
+        }
+      },
+      "422_source" : {
+        "type" : "object",
+        "properties" : {
+          "pointer" : {
+            "type" : "string",
+            "default" : "/data/attributes/password"
+          }
+        }
+      },
+      "422_errors" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "default" : "422"
+          },
+          "title" : {
+            "type" : "string",
+            "default" : "Unprocessable Entity"
+          },
+          "detail" : {
+            "type" : "string",
+            "default" : "The password confirmation does not match."
+          },
+          "source" : {
+            "$ref" : "#/components/schemas/422_source"
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "include" : {
+        "name" : "include",
+        "in" : "query",
+        "description" : "Includes the specified relations for the requested user. Possible values: roles,roles.permissions .",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "roles,roles.permissions"
+        }
+      },
+      "fields-users" : {
+        "name" : "fields-users",
+        "in" : "query",
+        "description" : "Only returns the specified user attributes.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "name,email,profile_image"
+        }
+      },
+      "fields-roles" : {
+        "name" : "fields-roles",
+        "in" : "query",
+        "description" : "Only returns the specified role relationship attributes.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "name"
+        }
+      },
+      "fields-permissions" : {
+        "name" : "fields-permissions",
+        "in" : "query",
+        "description" : "Only returns the specified permission relationship attributes.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "name"
+        }
+      },
+      "page-number" : {
+        "name" : "page-number",
+        "in" : "query",
+        "description" : "The page number.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "number"
+        }
+      },
+      "page-size" : {
+        "name" : "page-size",
+        "in" : "query",
+        "description" : "The number of items per page.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "number"
+        }
+      },
+      "filter-name" : {
+        "name" : "filter-name",
+        "in" : "query",
+        "description" : "Filters the collection by the specifed name value. ",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "User Name"
+        }
+      },
+      "filter-email" : {
+        "name" : "filter-email",
+        "in" : "query",
+        "description" : "Filters the collection by the specifed email value. ",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "user@email.com"
+        }
+      },
+      "filter-roles" : {
+        "name" : "filter-roles",
+        "in" : "query",
+        "description" : "Filters the collection by the specifed user role value. ",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "creator"
+        }
+      },
+      "sort" : {
+        "name" : "sort",
+        "in" : "query",
+        "description" : "Sorts the resource collection by the specified value. Possible values are: name, email, roles, created_at.  All values can be appended with either + or - to specify the sorting order.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "-roles.name"
+        }
+      },
+      "filter-color" : {
+        "name" : "filter-color",
+        "in" : "query",
+        "description" : "Filters the collection by the specifed tag color value.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "%23FF0000"
+        }
+      },
+      "fields-tags" : {
+        "name" : "fields-tags",
+        "in" : "query",
+        "description" : "Only returns the specified tags attributes.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "name,color"
+        }
+      },
+      "filter-description" : {
+        "name" : "filter-description",
+        "in" : "query",
+        "description" : "Filters the collection by the specifed category description value.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "some_description"
+        }
+      },
+      "fields-categories" : {
+        "name" : "fields-categories",
+        "in" : "query",
+        "description" : "Only returns the specified resource attributes or relationship attributes.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "name,description"
+        }
+      },
+      "filter-category" : {
+        "name" : "filter-category",
+        "in" : "query",
+        "description" : "Filters the collection by the specifed category name value.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "some_category"
+        }
+      },
+      "filter-tags" : {
+        "name" : "filter-tags",
+        "in" : "query",
+        "description" : "Filters the collection by the specifed tag name value.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "some_tag"
+        }
+      },
+      "filter-status" : {
+        "name" : "filter-status",
+        "in" : "query",
+        "description" : "Filters the collection by the specifed status value. Possible values: published, draft, archive.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "published"
+        }
+      },
+      "filter-is_on_homepage" : {
+        "name" : "filter-is_on_homepage",
+        "in" : "query",
+        "description" : "Filters the collection by the specifed boolen value. Possible values: 0 (false), 1 (true).",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "number"
+        }
+      },
+      "filter-date_at" : {
+        "name" : "filter-date_at",
+        "in" : "query",
+        "description" : "Filters the collection by the specifed date_at value. In the case of interval filtering between the dates the first element of the date_at array will be the start of the interval.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "2020-01-01 00:00:00"
+        }
+      },
+      "filter-created_at" : {
+        "name" : "filter-created_at",
+        "in" : "query",
+        "description" : "Filters the collection by the specifed created_at value. In the case of interval filtering between the dates the first element of the created_at array will be the start of the interval.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "2020-01-01 00:00:00"
+        }
+      },
+      "fields-item" : {
+        "name" : "fields-item",
+        "in" : "query",
+        "description" : "Only returns the specified item attributes.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "name,excerpt,description,status,image,is_on_homepage,date_at"
+        }
+      },
+      "fields-user" : {
+        "name" : "fields-user",
+        "in" : "query",
+        "description" : "Only returns the specified user relationship attributes.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "name,email,profile_image"
+        }
+      },
+      "fields-category" : {
+        "name" : "fields-category",
+        "in" : "query",
+        "description" : "Only returns the specified category relationship attributes.",
+        "required" : true,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "name"
+        }
+      }
+    },
+    "securitySchemes" : {
+      "noauth" : {
+        "type" : "http",
+        "scheme" : "noauth"
+      }
+    }
+  }
+}
