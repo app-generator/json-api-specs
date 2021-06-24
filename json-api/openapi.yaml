@@ -732,7 +732,7 @@
     },
     "/users" : {
       "get" : {
-        "tags" : [ "Users API - PRO Feature" ],
+        "tags" : [ "Users API" ],
         "summary" : "List Users",
         "description" : "Lists all users.",
         "operationId" : "ListUsers",
@@ -996,7 +996,7 @@
         }
       },
       "post" : {
-        "tags" : [ "Users API - PRO Feature" ],
+        "tags" : [ "Users API" ],
         "summary" : "Create User",
         "description" : "Creates a new user.",
         "operationId" : "CreateUser",
@@ -1081,7 +1081,7 @@
     },
     "/users/1" : {
       "get" : {
-        "tags" : [ "Users API - PRO Feature" ],
+        "tags" : [ "Users API" ],
         "summary" : "Show User",
         "description" : "Returns a single queried user.",
         "operationId" : "ShowUser",
@@ -1272,7 +1272,7 @@
         }
       },
       "patch" : {
-        "tags" : [ "Users API - PRO Feature" ],
+        "tags" : [ "Users API" ],
         "summary" : "Update User",
         "description" : "Updates a single user.",
         "operationId" : "UpdateUser",
@@ -1444,7 +1444,7 @@
     },
     "/users/2" : {
       "delete" : {
-        "tags" : [ "Users API - PRO Feature" ],
+        "tags" : [ "Users API" ],
         "summary" : "Delete User",
         "description" : "Deletes a single user.",
         "operationId" : "DeleteUser",
@@ -1455,7 +1455,7 @@
     },
     "/uploads/users/1/profile-image" : {
       "post" : {
-        "tags" : [ "Users API - PRO Feature" ],
+        "tags" : [ "Users API" ],
         "summary" : "Upload Profile Image - Pro Feature",
         "description" : "Uploads and returns the url of the uploaded user profile image.",
         "operationId" : "UploadProfileImage-ProFeature",
@@ -1495,7 +1495,7 @@
     },
     "/items" : {
       "get" : {
-        "tags" : [ "Items API - PRO Feature" ],
+        "tags" : [ "Items API" ],
         "summary" : "List Items",
         "operationId" : "ListItems",
         "parameters" : [ {
@@ -1736,7 +1736,7 @@
         }
       },
       "post" : {
-        "tags" : [ "Items API - PRO Feature" ],
+        "tags" : [ "Items API" ],
         "summary" : "Create Item",
         "operationId" : "CreateItem",
         "requestBody" : {
@@ -1807,7 +1807,7 @@
     },
     "/items/1" : {
       "get" : {
-        "tags" : [ "Items API - PRO Feature" ],
+        "tags" : [ "Items API" ],
         "summary" : "Show Item",
         "operationId" : "ShowItem",
         "parameters" : [ {
@@ -1875,7 +1875,7 @@
         }
       },
       "delete" : {
-        "tags" : [ "Items API - PRO Feature" ],
+        "tags" : [ "Items API" ],
         "summary" : "Delete Item",
         "operationId" : "DeleteItem",
         "responses" : {
@@ -1885,7 +1885,7 @@
     },
     "/items/13" : {
       "patch" : {
-        "tags" : [ "Items API - PRO Feature" ],
+        "tags" : [ "Items API" ],
         "summary" : "Update Item",
         "operationId" : "UpdateItem",
         "requestBody" : {
@@ -1907,7 +1907,7 @@
     },
     "/uploads/items/1/image" : {
       "post" : {
-        "tags" : [ "Items API - PRO Feature" ],
+        "tags" : [ "Items API" ],
         "summary" : "Upload Item Image",
         "operationId" : "UploadItemImage",
         "requestBody" : {
