@@ -1456,7 +1456,7 @@
     "/uploads/users/1/profile-image" : {
       "post" : {
         "tags" : [ "Users API" ],
-        "summary" : "Upload Profile Image - Pro Feature",
+        "summary" : "Upload Profile Image",
         "description" : "Uploads and returns the url of the uploaded user profile image.",
         "operationId" : "UploadProfileImage-ProFeature",
         "requestBody" : {
